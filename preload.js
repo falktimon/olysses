@@ -8,4 +8,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   setSettings: (settings) => ipcRenderer.invoke('set-settings', settings),
   selectDirectory: () => ipcRenderer.invoke('select-directory'),
   listFiles: (dir) => ipcRenderer.invoke('list-files', dir),
+  readFile: (filePath) => ipcRenderer.invoke('read-file', filePath),
+  saveFile: (data) => ipcRenderer.invoke('save-file', data),
 });

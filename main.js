@@ -92,11 +92,51 @@ ipcMain.handle('list-files', (event, dir) => {
     return [];
   }
   try {
+    const TEXT_EXTENSIONS = new Set(['.txt', '.md', '.json', '.html', '.css', '.js', '.py', '.rb', '.java', '.c', '.cpp', '.h', '.hpp', '.rs', '.go', '.php', '.xml', '.yml', '.yaml']);
     const files = fs.readdirSync(dir);
-    return files.filter(file => !fs.statSync(path.join(dir, file)).isDirectory());
+    return files.filter(file => {
+        if (fs.statSync(path.join(dir, file)).isDirectory()) {
+            return false;
+        }
+        return TEXT_EXTENSIONS.has(path.extname(file).toLowerCase());
+    });
   } catch (error) {
     console.error('Error listing files:', error);
     return [];
+  }
+});
+
+ipcMain.handle('read-file', (event, filePath) => {
+  try {
+    return { success: true, content: fs.readFileSync(filePath, 'utf8') };
+  } catch (error)
+    {
+    console.error('Error reading file:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('save-file', async (event, { content, defaultPath }) => {
+  const { canceled, filePath } = await dialog.showSaveDialog(mainWindow, {
+    title: 'Save File',
+    defaultPath: defaultPath,
+    filters: [
+      { name: 'Text Documents', extensions: ['txt'] },
+      { name: 'Markdown', extensions: ['md'] },
+      { name: 'All Files', extensions: ['*'] },
+    ],
+  });
+
+  if (canceled || !filePath) {
+    return { success: false, canceled: true };
+  }
+
+  try {
+    fs.writeFileSync(filePath, content, 'utf8');
+    return { success: true, path: filePath };
+  } catch (error) {
+    console.error('Error saving file:', error);
+    return { success: false, error: error.message };
   }
 });
 

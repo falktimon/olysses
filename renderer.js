@@ -5,6 +5,9 @@ const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
 const preferencesBtn = document.getElementById('preferences-btn');
 const fileList = document.getElementById('file-list');
+const saveFileBtn = document.getElementById('save-file-btn');
+
+let currentFilePath = null;
 
 generateBtn.addEventListener('click', async () => {
   const editorContent = editor.value;
@@ -54,6 +57,19 @@ async function loadFiles() {
     files.forEach(file => {
       const li = document.createElement('li');
       li.textContent = file;
+      const filePath = `${settings.filesDirectory}/${file}`;
+      li.title = filePath;
+
+      li.addEventListener('click', async () => {
+        const result = await window.electronAPI.readFile(filePath);
+        if (result.success) {
+          editor.value = result.content;
+          currentFilePath = filePath;
+        } else {
+          console.error('Error reading file:', result.error);
+          alert(`Failed to read file: ${result.error}`);
+        }
+      });
       fileList.appendChild(li);
     });
   }
@@ -69,6 +85,18 @@ themeToggleBtn.addEventListener('click', () => {
 
 preferencesBtn.addEventListener('click', () => {
   window.electronAPI.openPreferences();
+});
+
+saveFileBtn.addEventListener('click', async () => {
+  const result = await window.electronAPI.saveFile({ 
+    content: editor.value, 
+    defaultPath: currentFilePath 
+  });
+  if (result.success) {
+    currentFilePath = result.path;
+  } else if (result.error) {
+    alert(`Failed to save file: ${result.error}`);
+  }
 });
 
 // Load files on startup and when settings change

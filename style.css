@@ -141,6 +141,7 @@ body {
   border-radius: 5px;
   border: 1px solid var(--border-color);
   font-size: 1em;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   box-sizing: border-box;
   resize: none; /* Disable manual resizing */
   margin-bottom: 10px;
@@ -149,7 +150,7 @@ body {
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-#generate-btn, #theme-toggle-btn {
+#generate-btn, #theme-toggle-btn, #save-file-btn {
   padding: 10px 20px;
   border: none;
   background-color: var(--button-bg);
@@ -159,8 +160,10 @@ body {
   font-size: 1em;
 }
 
-#generate-btn {
-  align-self: flex-end;
+.editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 #generate-btn:disabled {
