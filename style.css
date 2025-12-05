@@ -1,32 +1,92 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  margin: 20px;
+  margin: 0;
   background-color: #f4f4f9;
   color: #333;
+  overflow: hidden; /* Prevent body scrolling */
 }
 
-h1 {
-  text-align: center;
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  background-color: #e9e9ed;
+  padding: 10px;
+  transition: width 0.3s ease;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ddd;
+}
+
+.sidebar.collapsed {
+  width: 50px;
+}
+
+.sidebar.collapsed .sidebar-content {
+  display: none;
+}
+
+#toggle-sidebar-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  align-self: flex-end;
+  margin-bottom: 10px;
+}
+
+.sidebar-content h2 {
+  margin-top: 0;
+  font-size: 1.2em;
   color: #444;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 700px;
-  margin: 0 auto;
+#file-list {
+  list-style: none;
+  padding: 0;
 }
 
-#prompt-input {
+#file-list li {
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#file-list li:hover {
+  background-color: #dcdce1;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.main-content h1 {
+  text-align: center;
+  color: #444;
+  margin-top: 0;
+}
+
+#editor {
+  flex-grow: 1;
   width: 100%;
-  height: 150px;
-  padding: 10px;
+  padding: 15px;
   border-radius: 5px;
   border: 1px solid #ddd;
   font-size: 1em;
   box-sizing: border-box;
-  resize: vertical;
+  resize: none; /* Disable manual resizing */
+  margin-bottom: 10px;
 }
 
 #generate-btn {
@@ -43,13 +103,4 @@ h1 {
 #generate-btn:disabled {
   background-color: #aaa;
   cursor: not-allowed;
-}
-
-.result {
-  background-color: white;
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  min-height: 200px;
-  white-space: pre-wrap; /* preserve whitespace and newlines */
 }

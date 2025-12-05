@@ -3,8 +3,8 @@ const path = require('path');
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -35,7 +35,7 @@ ipcMain.handle('ollama-generate', async (event, prompt) => {
     const { default: ollama } = await import('ollama');
     
     const response = await ollama.generate({
-      model: 'llama2',
+      model: 'gemma3:latest',
       prompt: prompt,
     });
     return response.response;

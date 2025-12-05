@@ -7,11 +7,23 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>AI Writing Assistant</h1>
-  <div class="container">
-    <textarea id="prompt-input" placeholder="Enter your prompt here..."></textarea>
-    <button id="generate-btn">Generate</button>
-    <div id="result-output" class="result"></div>
+  <div class="app-container">
+    <div id="sidebar" class="sidebar">
+      <button id="toggle-sidebar-btn" title="Toggle sidebar">☰</button>
+      <div class="sidebar-content">
+        <h2>Files</h2>
+        <ul id="file-list">
+          <li>document1.txt</li>
+          <li>notes.txt</li>
+          <li>ideas.md</li>
+        </ul>
+      </div>
+    </div>
+    <div id="main-content" class="main-content">
+      <h1>AI Writing Assistant</h1>
+      <textarea id="editor" placeholder="Start writing, or ask the AI to generate text..."></textarea>
+      <button id="generate-btn">Continue Writing</button>
+    </div>
   </div>
   <script src="./renderer.js"></script>
 </body>

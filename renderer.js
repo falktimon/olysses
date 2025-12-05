@@ -1,24 +1,28 @@
-const promptInput = document.getElementById('prompt-input');
+const editor = document.getElementById('editor');
 const generateBtn = document.getElementById('generate-btn');
-const resultOutput = document.getElementById('result-output');
+const sidebar = document.getElementById('sidebar');
+const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
 
 generateBtn.addEventListener('click', async () => {
-  const prompt = promptInput.value;
+  const prompt = editor.value;
   if (!prompt) {
-    resultOutput.innerText = 'Please enter a prompt.';
     return;
   }
 
   generateBtn.disabled = true;
-  resultOutput.innerText = 'Generating...';
+  generateBtn.innerText = 'Generating...';
 
   try {
     const result = await window.electronAPI.generateText(prompt);
-    resultOutput.innerText = result;
+    editor.value += result; // Append the result to the editor
   } catch (error) {
     console.error('Error:', error);
-    resultOutput.innerText = 'An error occurred while generating text.';
   } finally {
     generateBtn.disabled = false;
+    generateBtn.innerText = 'Continue Writing';
   }
+});
+
+toggleSidebarBtn.addEventListener('click', () => {
+  sidebar.classList.toggle('collapsed');
 });
