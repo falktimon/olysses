@@ -1,10 +1,7 @@
 const editor = document.getElementById('editor');
 const generateBtn = document.getElementById('generate-btn');
-const sidebar = document.getElementById('sidebar');
-const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
 const preferencesBtn = document.getElementById('preferences-btn');
-const fileList = document.getElementById('file-list');
 const saveFileBtn = document.getElementById('save-file-btn');
 const newFileBtn = document.getElementById('new-file-btn');
 
@@ -50,35 +47,6 @@ generateBtn.addEventListener('click', async () => {
   }
 });
 
-async function loadFiles() {
-  fileList.innerHTML = ''; // Clear existing files
-  const settings = await window.electronAPI.getSettings();
-  if (settings.filesDirectory) {
-    const files = await window.electronAPI.listFiles(settings.filesDirectory);
-    files.forEach(file => {
-      const li = document.createElement('li');
-      li.textContent = file;
-      const filePath = `${settings.filesDirectory}/${file}`;
-      li.title = filePath;
-
-      li.addEventListener('click', async () => {
-        const result = await window.electronAPI.readFile(filePath);
-        if (result.success) {
-          editor.value = result.content;
-          currentFilePath = filePath;
-        } else {
-          console.error('Error reading file:', result.error);
-          alert(`Failed to read file: ${result.error}`);
-        }
-      });
-      fileList.appendChild(li);
-    });
-  }
-}
-
-toggleSidebarBtn.addEventListener('click', () => {
-  sidebar.classList.toggle('collapsed');
-});
 
 themeToggleBtn.addEventListener('click', () => {
   document.body.classList.toggle('dark');
@@ -105,9 +73,6 @@ saveFileBtn.addEventListener('click', async () => {
   }
 });
 
-// Load files on startup and when settings change
-loadFiles();
-
 window.electronAPI.onSettingsUpdated(() => {
-  loadFiles();
+  // Settings updated, could add logic here if needed in the future
 });

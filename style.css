@@ -32,113 +32,24 @@ body {
 }
 
 .app-container {
-  display: flex;
+  position: relative;
   height: 100vh;
-}
-
-/* Sidebar Styles */
-.sidebar {
-  width: 250px;
-  background-color: var(--sidebar-bg);
-  padding: 10px;
-  transition: width 0.3s ease, background-color 0.3s;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid var(--border-color);
-}
-
-.sidebar.collapsed {
-  width: 50px;
-}
-
-.sidebar.collapsed .sidebar-content {
-  display: none;
-}
-
-.sidebar-content {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  overflow: hidden;
-}
-
-#toggle-sidebar-btn {
-  background: none;
-  border: none;
-  color: var(--text-color);
-  font-size: 24px;
-  cursor: pointer;
-  align-self: flex-end;
-  margin-bottom: 10px;
-}
-
-.sidebar-content h2 {
-  margin-top: 0;
-  font-size: 1.2em;
-}
-
-#file-list {
-  list-style: none;
-  padding: 0;
-  overflow-y: auto;
-  flex-grow: 1; /* Pushes preferences button to the bottom */
-}
-
-#file-list li {
-  padding: 8px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-#file-list li:hover {
-  background-color: var(--hover-bg);
-}
-
-#new-file-btn, #preferences-btn {
-  padding: 10px;
-  border: none;
-  background-color: transparent;
-  color: var(--text-color);
-  border-radius: 5px;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  border: 1px solid var(--border-color);
-}
-
-#new-file-btn {
-  margin-top: 10px;
-}
-
-#preferences-btn {
-  margin-top: 5px;
-}
-
-#new-file-btn:hover, #preferences-btn:hover {
-  background-color: var(--hover-bg);
 }
 
 /* Main Content Styles */
 .main-content {
-  flex-grow: 1;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   box-sizing: border-box;
 }
 
 .main-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-bottom: 10px;
-}
-
-.main-content h1 {
-  margin: 0;
-  text-align: left;
 }
 
 #editor {
@@ -157,7 +68,7 @@ body {
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-#generate-btn, #theme-toggle-btn, #save-file-btn {
+#generate-btn, #theme-toggle-btn, #save-file-btn, #new-file-btn, #preferences-btn {
   padding: 10px 20px;
   border: none;
   background-color: var(--button-bg);
@@ -176,4 +87,12 @@ body {
 #generate-btn:disabled {
   background-color: var(--button-disabled-bg);
   cursor: not-allowed;
+}
+
+.bottom-actions {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
 }

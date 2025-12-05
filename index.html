@@ -8,18 +8,8 @@
 </head>
 <body>
   <div class="app-container">
-    <div id="sidebar" class="sidebar">
-      <button id="toggle-sidebar-btn" title="Toggle sidebar">☰</button>
-      <div class="sidebar-content">
-        <h2>Files</h2>
-        <ul id="file-list"></ul>
-        <button id="new-file-btn">New File</button>
-        <button id="preferences-btn">Preferences</button>
-      </div>
-    </div>
     <div id="main-content" class="main-content">
       <div class="main-header">
-        <h1>AI Writing Assistant</h1>
         <button id="theme-toggle-btn">Toggle Theme</button>
       </div>
       <textarea id="editor" placeholder="Start writing, or ask the AI to generate text..."></textarea>
@@ -27,6 +17,10 @@
         <button id="save-file-btn">Save File</button>
         <button id="generate-btn">Continue Writing</button>
       </div>
+    </div>
+    <div class="bottom-actions">
+        <button id="new-file-btn">New File</button>
+        <button id="preferences-btn">Preferences</button>
     </div>
   </div>
   <script src="./renderer.js"></script>

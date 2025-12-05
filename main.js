@@ -65,56 +65,17 @@ ipcMain.handle('get-settings', () => {
   return {
     ollamaHost: store.get('ollamaHost', 'http://127.0.0.1:11434'),
     model: store.get('model', 'gemma3:latest'),
-    filesDirectory: store.get('filesDirectory'),
   };
 });
 
 ipcMain.handle('set-settings', (event, settings) => {
   store.set('ollamaHost', settings.ollamaHost);
   store.set('model', settings.model);
-  store.set('filesDirectory', settings.filesDirectory);
   if (mainWindow) {
     mainWindow.webContents.send('settings-updated');
   }
 });
 
-ipcMain.handle('select-directory', async () => {
-  const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
-    properties: ['openDirectory'],
-  });
-  if (!canceled) {
-    return filePaths[0];
-  }
-});
-
-ipcMain.handle('list-files', (event, dir) => {
-  if (!dir || !fs.existsSync(dir)) {
-    return [];
-  }
-  try {
-    const TEXT_EXTENSIONS = new Set(['.txt', '.md', '.json', '.html', '.css', '.js', '.py', '.rb', '.java', '.c', '.cpp', '.h', '.hpp', '.rs', '.go', '.php', '.xml', '.yml', '.yaml']);
-    const files = fs.readdirSync(dir);
-    return files.filter(file => {
-        if (fs.statSync(path.join(dir, file)).isDirectory()) {
-            return false;
-        }
-        return TEXT_EXTENSIONS.has(path.extname(file).toLowerCase());
-    });
-  } catch (error) {
-    console.error('Error listing files:', error);
-    return [];
-  }
-});
-
-ipcMain.handle('read-file', (event, filePath) => {
-  try {
-    return { success: true, content: fs.readFileSync(filePath, 'utf8') };
-  } catch (error)
-    {
-    console.error('Error reading file:', error);
-    return { success: false, error: error.message };
-  }
-});
 
 ipcMain.handle('save-file', async (event, { content, defaultPath }) => {
   const saveOptions = {
