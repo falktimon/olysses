@@ -117,15 +117,20 @@ ipcMain.handle('read-file', (event, filePath) => {
 });
 
 ipcMain.handle('save-file', async (event, { content, defaultPath }) => {
-  const { canceled, filePath } = await dialog.showSaveDialog(mainWindow, {
+  const saveOptions = {
     title: 'Save File',
-    defaultPath: defaultPath,
     filters: [
       { name: 'Text Documents', extensions: ['txt'] },
       { name: 'Markdown', extensions: ['md'] },
       { name: 'All Files', extensions: ['*'] },
     ],
-  });
+  };
+
+  if (defaultPath) {
+    saveOptions.defaultPath = defaultPath;
+  }
+
+  const { canceled, filePath } = await dialog.showSaveDialog(mainWindow, saveOptions);
 
   if (canceled || !filePath) {
     return { success: false, canceled: true };
