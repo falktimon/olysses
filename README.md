@@ -1,4 +1,4 @@
-# AI Writing App
+# Olysses
 
 An AI-powered writing assistant built with Electron that connects to an Ollama server.
 
@@ -28,7 +28,7 @@ This application requires a running Ollama server to function.
     ollama pull gemma3:latest
     ```
 
-3.  **Ensure Ollama is running:** The Ollama server must be running in the background before you start the AI Writing App. By default, the app will try to connect to `http://127.0.0.1:11434`.
+3.  **Ensure Ollama is running:** The Ollama server must be running in the background before you start Olysses. By default, the app will try to connect to `http://127.0.0.1:11434`.
 
 ## Installation & Running
 

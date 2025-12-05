@@ -14,30 +14,46 @@ generateBtn.addEventListener('click', async () => {
   }
 
   const lines = editorContent.split('\n');
-  const commandLinesContent = [];
-  let lastCommandIndex = -1;
+  let commandIndex = -1;
+  let commandType = null;
 
-  lines.forEach((line, index) => {
-    if (line.trim().startsWith(';;')) {
-      commandLinesContent.push(line.trim().substring(2).trim());
-      lastCommandIndex = index;
+  // Find the last command line
+  for (let i = lines.length - 1; i >= 0; i--) {
+    const trimmedLine = lines[i].trim();
+    if (trimmedLine.startsWith(';;;')) {
+      commandIndex = i;
+      commandType = ';;;';
+      break;
+    } else if (trimmedLine.startsWith(';;')) {
+      commandIndex = i;
+      commandType = ';;';
+      break;
     }
-  });
+  }
 
-  if (lastCommandIndex === -1) {
+  if (commandIndex === -1) {
     return; // No command found, do nothing.
   }
 
   generateBtn.disabled = true;
   generateBtn.innerText = 'Generating...';
 
-  const prompt = commandLinesContent.join('\n');
+  let prompt;
+  const commandLine = lines[commandIndex].trim();
+
+  if (commandType === ';;;') {
+    const command = commandLine.substring(3).trim();
+    const context = lines.slice(0, commandIndex).join('\n');
+    prompt = (context ? context + '\n\n' : '') + command;
+  } else { // commandType is ';;'
+    prompt = commandLine.substring(2).trim();
+  }
 
   try {
     const result = await window.electronAPI.generateText(prompt);
 
-    // Replace the last command line with the result
-    lines[lastCommandIndex] = result;
+    // Replace the command line with the result
+    lines[commandIndex] = result;
     editor.value = lines.join('\n');
   } catch (error) {
     console.error('Error:', error);

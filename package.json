@@ -1,7 +1,7 @@
 {
-  "name": "ai-writing-app",
+  "name": "olysses",
   "version": "1.0.0",
-  "description": "An AI powered writing app using Electron and Ollama.",
+  "description": "An AI powered writing app.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
