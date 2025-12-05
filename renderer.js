@@ -3,6 +3,8 @@ const generateBtn = document.getElementById('generate-btn');
 const sidebar = document.getElementById('sidebar');
 const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
+const preferencesBtn = document.getElementById('preferences-btn');
+const fileList = document.getElementById('file-list');
 
 generateBtn.addEventListener('click', async () => {
   const editorContent = editor.value;
@@ -44,10 +46,34 @@ generateBtn.addEventListener('click', async () => {
   }
 });
 
+async function loadFiles() {
+  fileList.innerHTML = ''; // Clear existing files
+  const settings = await window.electronAPI.getSettings();
+  if (settings.filesDirectory) {
+    const files = await window.electronAPI.listFiles(settings.filesDirectory);
+    files.forEach(file => {
+      const li = document.createElement('li');
+      li.textContent = file;
+      fileList.appendChild(li);
+    });
+  }
+}
+
 toggleSidebarBtn.addEventListener('click', () => {
   sidebar.classList.toggle('collapsed');
 });
 
 themeToggleBtn.addEventListener('click', () => {
   document.body.classList.toggle('dark');
+});
+
+preferencesBtn.addEventListener('click', () => {
+  window.electronAPI.openPreferences();
+});
+
+// Load files on startup and when settings change
+loadFiles();
+
+window.electronAPI.onSettingsUpdated(() => {
+  loadFiles();
 });

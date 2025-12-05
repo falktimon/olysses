@@ -56,6 +56,13 @@ body {
   display: none;
 }
 
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
 #toggle-sidebar-btn {
   background: none;
   border: none;
@@ -74,6 +81,8 @@ body {
 #file-list {
   list-style: none;
   padding: 0;
+  overflow-y: auto;
+  flex-grow: 1; /* Pushes preferences button to the bottom */
 }
 
 #file-list li {
@@ -83,6 +92,23 @@ body {
 }
 
 #file-list li:hover {
+  background-color: var(--hover-bg);
+}
+
+#preferences-btn {
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  background-color: transparent;
+  color: var(--text-color);
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  border: 1px solid var(--border-color);
+}
+
+#preferences-btn:hover {
   background-color: var(--hover-bg);
 }
 
