@@ -1,9 +1,34 @@
+:root {
+  --bg-color: #FBF9F1;
+  --text-color: #4A4A4A;
+  --sidebar-bg: #E5E1DA;
+  --border-color: #D4CFC7;
+  --hover-bg: #D4CFC7;
+  --button-bg: #937DC2;
+  --button-text-color: #FFF;
+  --button-disabled-bg: #b0b0b0;
+  --editor-bg: #FFF;
+}
+
+body.dark {
+  --bg-color: #2D2D2D;
+  --text-color: #EAEAEA;
+  --sidebar-bg: #212121;
+  --border-color: #424242;
+  --hover-bg: #383838;
+  --button-bg: #937DC2;
+  --button-text-color: #FFF;
+  --button-disabled-bg: #555;
+  --editor-bg: #333333;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   margin: 0;
-  background-color: #f4f4f9;
-  color: #333;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   overflow: hidden; /* Prevent body scrolling */
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .app-container {
@@ -14,13 +39,13 @@ body {
 /* Sidebar Styles */
 .sidebar {
   width: 250px;
-  background-color: #e9e9ed;
+  background-color: var(--sidebar-bg);
   padding: 10px;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, background-color 0.3s;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid var(--border-color);
 }
 
 .sidebar.collapsed {
@@ -34,6 +59,7 @@ body {
 #toggle-sidebar-btn {
   background: none;
   border: none;
+  color: var(--text-color);
   font-size: 24px;
   cursor: pointer;
   align-self: flex-end;
@@ -43,7 +69,6 @@ body {
 .sidebar-content h2 {
   margin-top: 0;
   font-size: 1.2em;
-  color: #444;
 }
 
 #file-list {
@@ -58,7 +83,7 @@ body {
 }
 
 #file-list li:hover {
-  background-color: #dcdce1;
+  background-color: var(--hover-bg);
 }
 
 /* Main Content Styles */
@@ -71,10 +96,16 @@ body {
   box-sizing: border-box;
 }
 
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .main-content h1 {
-  text-align: center;
-  color: #444;
-  margin-top: 0;
+  margin: 0;
+  text-align: left;
 }
 
 #editor {
@@ -82,25 +113,31 @@ body {
   width: 100%;
   padding: 15px;
   border-radius: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   font-size: 1em;
   box-sizing: border-box;
   resize: none; /* Disable manual resizing */
   margin-bottom: 10px;
+  background-color: var(--editor-bg);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-#generate-btn {
+#generate-btn, #theme-toggle-btn {
   padding: 10px 20px;
   border: none;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--button-bg);
+  color: var(--button-text-color);
   border-radius: 5px;
   cursor: pointer;
   font-size: 1em;
+}
+
+#generate-btn {
   align-self: flex-end;
 }
 
 #generate-btn:disabled {
-  background-color: #aaa;
+  background-color: var(--button-disabled-bg);
   cursor: not-allowed;
 }

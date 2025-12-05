@@ -2,6 +2,7 @@ const editor = document.getElementById('editor');
 const generateBtn = document.getElementById('generate-btn');
 const sidebar = document.getElementById('sidebar');
 const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
 
 generateBtn.addEventListener('click', async () => {
   const editorContent = editor.value;
@@ -9,39 +10,32 @@ generateBtn.addEventListener('click', async () => {
     return;
   }
 
+  const lines = editorContent.split('\n');
+  const commandLinesContent = [];
+  let lastCommandIndex = -1;
+
+  lines.forEach((line, index) => {
+    if (line.trim().startsWith('##')) {
+      commandLinesContent.push(line.trim().substring(2).trim());
+      lastCommandIndex = index;
+    }
+  });
+
+  if (lastCommandIndex === -1) {
+    return; // No command found, do nothing.
+  }
+
   generateBtn.disabled = true;
   generateBtn.innerText = 'Generating...';
 
-  const lines = editorContent.split('\n');
-  let commandIndex = -1;
-
-  // Find the last line with a ## command
-  for (let i = lines.length - 1; i >= 0; i--) {
-    if (lines[i].trim().startsWith('##')) {
-      commandIndex = i;
-      break;
-    }
-  }
-
-  let prompt = editorContent;
-  const isCommand = commandIndex !== -1;
-
-  if (isCommand) {
-    const commandLine = lines[commandIndex].trim();
-    const command = commandLine.substring(2).trim();
-    const context = lines.slice(0, commandIndex).join('\n');
-    prompt = (context ? context + '\n' : '') + command;
-  }
+  const prompt = commandLinesContent.join('\n');
 
   try {
     const result = await window.electronAPI.generateText(prompt);
 
-    if (isCommand) {
-      lines.splice(commandIndex, 1, result); // Replace command line with result
-      editor.value = lines.join('\n');
-    } else {
-      editor.value += result; // Append the result to the editor
-    }
+    // Replace the last command line with the result
+    lines[lastCommandIndex] = result;
+    editor.value = lines.join('\n');
   } catch (error) {
     console.error('Error:', error);
   } finally {
@@ -52,4 +46,8 @@ generateBtn.addEventListener('click', async () => {
 
 toggleSidebarBtn.addEventListener('click', () => {
   sidebar.classList.toggle('collapsed');
+});
+
+themeToggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
 });
