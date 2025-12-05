@@ -6,6 +6,7 @@ const themeToggleBtn = document.getElementById('theme-toggle-btn');
 const preferencesBtn = document.getElementById('preferences-btn');
 const fileList = document.getElementById('file-list');
 const saveFileBtn = document.getElementById('save-file-btn');
+const newFileBtn = document.getElementById('new-file-btn');
 
 let currentFilePath = null;
 
@@ -20,7 +21,7 @@ generateBtn.addEventListener('click', async () => {
   let lastCommandIndex = -1;
 
   lines.forEach((line, index) => {
-    if (line.trim().startsWith('##')) {
+    if (line.trim().startsWith(';;')) {
       commandLinesContent.push(line.trim().substring(2).trim());
       lastCommandIndex = index;
     }
@@ -85,6 +86,11 @@ themeToggleBtn.addEventListener('click', () => {
 
 preferencesBtn.addEventListener('click', () => {
   window.electronAPI.openPreferences();
+});
+
+newFileBtn.addEventListener('click', () => {
+  editor.value = '';
+  currentFilePath = null;
 });
 
 saveFileBtn.addEventListener('click', async () => {

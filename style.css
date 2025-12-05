@@ -95,8 +95,7 @@ body {
   background-color: var(--hover-bg);
 }
 
-#preferences-btn {
-  margin-top: 10px;
+#new-file-btn, #preferences-btn {
   padding: 10px;
   border: none;
   background-color: transparent;
@@ -108,7 +107,15 @@ body {
   border: 1px solid var(--border-color);
 }
 
-#preferences-btn:hover {
+#new-file-btn {
+  margin-top: 10px;
+}
+
+#preferences-btn {
+  margin-top: 5px;
+}
+
+#new-file-btn:hover, #preferences-btn:hover {
   background-color: var(--hover-bg);
 }
 
