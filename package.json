@@ -1,0 +1,18 @@
+{
+  "name": "ai-writing-app",
+  "version": "1.0.0",
+  "description": "An AI powered writing app using Electron and Ollama.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^28.2.3"
+  },
+  "dependencies": {
+    "ollama": "^0.5.0"
+  }
+}
